@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Port Scanner</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        form {
+            text-align: center;
+        }
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #results {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Port Scanner</h1>
+    <form id="portScannerForm">
+        <label for="ip">IP Address:</label>
+        <input type="text" id="ip" name="ip" required><br>
+        <label for="startPort">Start Port:</label>
+        <input type="text" id="startPort" name="startPort" required><br>
+        <label for="endPort">End Port:</label>
+        <input type="text" id="endPort" name="endPort" required><br>
+        <button type="button" onclick="scanPorts()">Scan</button>
+    </form>
+    <div id="results"></div>
+</div>
+
+<script>
+    function scanPorts() {
+        var ip = document.getElementById('ip').value;
+        var startPort = document.getElementById('startPort').value;
+        var endPort = document.getElementById('endPort').value;
+
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                document.getElementById('results').innerHTML = this.responseText;
+            }
+        };
+        xhttp.open("POST", "/scan", true);
+        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhttp.send("ip=" + ip + "&start_port=" + startPort + "&end_port=" + endPort);
+    }
+</script>
+
+</body>
+</html>
